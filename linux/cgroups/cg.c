@@ -1,4 +1,4 @@
-#include <cg.h>
+#include "cg.h"
 
 #include <assert.h>
 #include <stdio.h>
