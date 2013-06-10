@@ -3,7 +3,7 @@ INCLUDE_LBR = -L bin
 
 all: gtrm.c
 	mkdir bin
-	mv *.h bin
+	cp *.h bin
 	./jobsignal/build/autobuild.sh
 	gcc -c cg.c
 	gcc -o gtrm ${INCLUDE_HDR} ${INCLUDE_LBR} gtrm.c cg.o -lpthread -lm -ljobsignaler -lrt
