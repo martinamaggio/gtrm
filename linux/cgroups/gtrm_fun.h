@@ -9,6 +9,7 @@
   #include <sys/types.h>
   #include <math.h>
 
+  #include "cg.h"
 
   #define _DEBUG 1
   #define _EXIT_SUCCESS 0

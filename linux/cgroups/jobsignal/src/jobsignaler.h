@@ -17,6 +17,8 @@
   #include <time.h>
   #include <unistd.h>
 
+  #include "cg.h"
+
   #undef _JOBSIGNALER_DEBUG
   #define _JOBSIGNALER_ERROR 1
   #define _JOBSIGNALER_MULTITHREADED 1

@@ -4,9 +4,6 @@
 # Avoid remembering all the automake toolchain, make will call this script
 ################################################################################
 
-# create new build
-mkdir bin
-
 # copy source files
 cd bin
 cp -r ../jobsignal/src .
