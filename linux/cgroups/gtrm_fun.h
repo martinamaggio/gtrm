@@ -9,7 +9,6 @@
   #include <sys/types.h>
   #include <math.h>
 
-  #include "dl_syscalls.h"
 
   #define _DEBUG 1
   #define _EXIT_SUCCESS 0
@@ -68,28 +67,28 @@
     // Handle termination
     signal(SIGINT, signal_callback_handler);
     // Set SCHED_DEADLINE as scheduler with parameters
-    struct sched_param2 param2;
-    param2.sched_priority = 0;
-    param2.sched_deadline = _RM_DEADLINE;
-    param2.sched_period = _RM_DEADLINE;
-    param2.sched_runtime = _RM_RUNTIME;
-    pid_t rm_pid = getpid();
-    sched_setscheduler2(rm_pid, SCHED_DEADLINE, &param2);
+    //struct sched_param2 param2;
+    //param2.sched_priority = 0;
+    //param2.sched_deadline = _RM_DEADLINE;
+    //param2.sched_period = _RM_DEADLINE;
+    //param2.sched_runtime = _RM_RUNTIME;
+    //pid_t rm_pid = getpid();
+    //sched_setscheduler2(rm_pid, SCHED_DEADLINE, &param2);
   }
 
   int apply_scheddeadline(pid_t tid, float vp) {
-    struct sched_param2 param2;
-    param2.sched_priority = 0;
-    param2.sched_deadline = _RM_DEADLINE;
-    param2.sched_period = _RM_DEADLINE;
-    param2.sched_runtime = (uint64_t) floor(vp * param2.sched_period);
-    pid_t rm_pid = getpid();
-    int ret = sched_setscheduler2(tid, SCHED_DEADLINE, &param2);
-    #ifdef _DEBUG
-      if (ret != 0)
-        fprintf(stderr, "Error in sched_setscheduler2 for pid %d, vp %f\n", tid, vp);
-    #endif
-    return ret;
+    //struct sched_param2 param2;
+    //param2.sched_priority = 0;
+    //param2.sched_deadline = _RM_DEADLINE;
+    //param2.sched_period = _RM_DEADLINE;
+    //param2.sched_runtime = (uint64_t) floor(vp * param2.sched_period);
+    //pid_t rm_pid = getpid();
+    //int ret = sched_setscheduler2(tid, SCHED_DEADLINE, &param2);
+    //#ifdef _DEBUG
+    //  if (ret != 0)
+    //    fprintf(stderr, "Error in sched_setscheduler2 for pid %d, vp %f\n", tid, vp);
+    //#endif
+    //return ret;
   }
 
   int update_applications(_rm_application_h* apps) {
