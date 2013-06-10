@@ -5,7 +5,7 @@ all: gtrm.c
 	./jobsignal/build/autobuild.sh
 	gcc -c dl_syscalls.c
 	gcc -o gtrm ${INCLUDE_HDR} ${INCLUDE_LBR} gtrm.c dl_syscalls.o -lpthread -lm -ljobsignaler -lrt 
-	mv cg.o bin/.
+	mv dl_syscalls.o bin/.
 	mv gtrm bin/.
 
 clean:
