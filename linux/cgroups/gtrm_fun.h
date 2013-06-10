@@ -11,6 +11,7 @@
 
   #include "cg.h"
 
+  #define _RM_CGROUP "rmcgroup"
   #define _DEBUG 1
   #define _EXIT_SUCCESS 0
   #define _RM_MAX_APPLICATIONS 100
@@ -60,6 +61,8 @@
   }
 
   void signal_callback_handler(int signum) {
+    cg_detach(_RM_CGROUP, 0);
+    cg_destroy(_RM_CGROUP);
     fprintf(stdout, "GTRM: Terminated\n");
     exit(_EXIT_SUCCESS);
   }
@@ -67,29 +70,23 @@
   void gtrm_init() {
     // Handle termination
     signal(SIGINT, signal_callback_handler);
-    // Set SCHED_DEADLINE as scheduler with parameters
-    //struct sched_param2 param2;
-    //param2.sched_priority = 0;
-    //param2.sched_deadline = _RM_DEADLINE;
-    //param2.sched_period = _RM_DEADLINE;
-    //param2.sched_runtime = _RM_RUNTIME;
-    //pid_t rm_pid = getpid();
-    //sched_setscheduler2(rm_pid, SCHED_DEADLINE, &param2);
+    cg_create(_RM_CGROUP);
+    cg_attach(_RM_CGROUP, 0);
+    cg_set_cpus(_RM_CGROUP, 0, 0); // rm only on cpu 0
+    cg_set_cfs_period(_RM_CGROUP, _RM_DEADLINE);
+    cg_set_cfs_quota(_RM_CGROUP, _RM_RUNTIME);
   }
 
   int apply_scheddeadline(pid_t tid, float vp) {
-    //struct sched_param2 param2;
-    //param2.sched_priority = 0;
-    //param2.sched_deadline = _RM_DEADLINE;
-    //param2.sched_period = _RM_DEADLINE;
-    //param2.sched_runtime = (uint64_t) floor(vp * param2.sched_period);
-    //pid_t rm_pid = getpid();
-    //int ret = sched_setscheduler2(tid, SCHED_DEADLINE, &param2);
-    //#ifdef _DEBUG
-    //  if (ret != 0)
-    //    fprintf(stderr, "Error in sched_setscheduler2 for pid %d, vp %f\n", tid, vp);
-    //#endif
-    //return ret;
+    char cgroupname[30];
+    sprintf(cgroupname, "app%d", (int) tid);
+    int CPUs = sysconf(_SC_NPROCESSORS_ONLN);
+    uint64_t quota = (uint64_t) floor(vp * _RM_DEADLINE);
+    quota = quota / CPUs; // total divided by the number of CPUs to share
+    cg_set_cpus(_RM_CGROUP, 0, CPUs); // can use all CPUs
+    cg_set_cfs_period(_RM_CGROUP, _RM_DEADLINE);
+    cg_set_cfs_quota(_RM_CGROUP, quota); // in each CPU get quota
+    return 0;
   }
 
   int update_applications(_rm_application_h* apps) {

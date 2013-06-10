@@ -25,6 +25,12 @@ _application_h* jobsignaler_registration() {
   FILE* fd = fopen(filename, "w");
   fclose(fd);
 
+  // Creating cgroup associated with application name
+  char cgroupname[_H_MAX_FILENAMELENGHT];
+  sprintf(cgroupname, "app%d", application_id);
+  cg_create(cgroupname);
+  cg_attach(cgroupname, 0);
+
   // Creating shared memory segment
   key_t key = ftok(filename, application_id);
   int shmid = shmget(key, sizeof(_application_h), 0666 | IPC_CREAT);
@@ -89,6 +95,12 @@ int jobsignaler_set(_application_h* a, uint types, uint64_t* ert) {
 
 // ****************************************************************************
 int jobsignaler_terminate(_application_h* a) {
+
+  // Detaching cgroup associated with application name
+  char cgroupname[_H_MAX_FILENAMELENGHT];
+  sprintf(cgroupname, "app%d", a->application_id);
+  cg_detach(cgroupname, 0);
+  cg_destroy(cgroupname);
 
   #ifdef _JOBSIGNALER_DEBUG
     fprintf(stdout, "[terminate] started\n");
