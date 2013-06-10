@@ -34,8 +34,6 @@ int main(int argc, char* argv[]) {
       ++i;
     }
 
-    // Use custom macro for logging, can be disabled via preprocessor
-    // directives.
   }
 
   unreachable();
