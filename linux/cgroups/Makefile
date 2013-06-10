@@ -1,12 +1,12 @@
-INCLUDE_HDR = -I jobsignal/bin
-INCLUDE_LBR = -L jobsignal/bin
+INCLUDE_HDR = -I bin
+INCLUDE_LBR = -L bin
 
 all: gtrm.c
-	cd jobsignal
-	make
-	cd ..
+	./jobsignal/build/autobuild.sh
 	gcc -c cg.c
-	gcc -o gtrm ${INCLUDE_HDR} ${INCLUDE_LBR} gtrm.c cg.o -lpthread -lm -ljobsignaler -lrt 
+	gcc -o gtrm ${INCLUDE_HDR} ${INCLUDE_LBR} gtrm.c cg.o -lpthread -lm -ljobsignaler -lrt
+	mv cg.o bin/.
+	mv gtrm bin/.
 
 clean:
-	rm -f gtrm gc.o
+	rm -rf bin

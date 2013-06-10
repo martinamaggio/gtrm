@@ -9,10 +9,10 @@ mkdir bin
 
 # copy source files
 cd bin
-cp -r ../src .
-cp ../src/*.h .
-cp ../build/configure.ac .
-cp ../build/Makefile.am .
+cp -r ../jobsignal/src .
+cp ../jobsignal/src/*.h .
+cp ../jobsignal/build/configure.ac .
+cp ../jobsignal/build/Makefile.am .
 
 # using autotools
 autoreconf --force --install
