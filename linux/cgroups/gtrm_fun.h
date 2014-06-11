@@ -83,9 +83,9 @@
     int CPUs = sysconf(_SC_NPROCESSORS_ONLN);
     uint64_t quota = (uint64_t) floor(vp * _RM_DEADLINE);
     quota = quota / CPUs; // total divided by the number of CPUs to share
-    cg_set_cpus(_RM_CGROUP, 0, CPUs); // can use all CPUs
-    cg_set_cfs_period(_RM_CGROUP, _RM_DEADLINE);
-    cg_set_cfs_quota(_RM_CGROUP, quota); // in each CPU get quota
+    cg_set_cpus(cgroupname, 0, CPUs); // can use all CPUs
+    cg_set_cfs_period(cgroupname, _RM_DEADLINE);
+    cg_set_cfs_quota(cgroupname, quota); // in each CPU get quota
     return 0;
   }
 
