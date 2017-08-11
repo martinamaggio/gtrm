@@ -12,6 +12,7 @@ function [exectime, data] = rm_code(seg, data)
     case 1
       actual_time = ttAnalogIn(1);
       eps_offset = 0;
+      available_applications = 1;
             
       c1 = 0.1;
       c2 = 1.0;
